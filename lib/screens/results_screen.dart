@@ -197,13 +197,14 @@ class ResultScreen extends StatelessWidget {
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children:  [
                         Icon(Icons.content_copy),
                         SizedBox(width: 8),
                         Text(
                           'Copy Complete Post',
                           style: TextStyle(
                             fontSize: 16,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
