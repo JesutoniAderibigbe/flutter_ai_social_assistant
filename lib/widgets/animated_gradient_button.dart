@@ -9,14 +9,14 @@ class AnimatedGradientButton extends StatefulWidget {
   final bool isLoading;
   
   const AnimatedGradientButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.child,
     required this.gradientColors,
     this.borderRadius = 16,
     this.padding = const EdgeInsets.symmetric(vertical: 18, horizontal: 24),
     this.isLoading = false,
-  }) : super(key: key);
+  });
 
   @override
   State<AnimatedGradientButton> createState() => _AnimatedGradientButtonState();

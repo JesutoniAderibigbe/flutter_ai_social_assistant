@@ -7,8 +7,7 @@ class ResultScreen extends StatelessWidget {
   final PostData postData;
   final File image;
 
-  const ResultScreen({Key? key, required this.postData, required this.image})
-    : super(key: key);
+  const ResultScreen({super.key, required this.postData, required this.image});
 
   void _copyToClipboard(BuildContext context, String text) {
     Clipboard.setData(ClipboardData(text: text));

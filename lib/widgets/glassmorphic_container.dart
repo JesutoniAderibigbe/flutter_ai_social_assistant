@@ -11,7 +11,7 @@ class GlassmorphicContainer extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   
   const GlassmorphicContainer({
-    Key? key,
+    super.key,
     required this.child,
     this.blur = 10,
     this.opacity = 0.1,
@@ -19,7 +19,7 @@ class GlassmorphicContainer extends StatelessWidget {
     this.border,
     this.gradientColors,
     this.padding,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
