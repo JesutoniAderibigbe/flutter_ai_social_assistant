@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../models/post_data.dart';
 
 class ResultScreen extends StatelessWidget {
@@ -20,11 +21,53 @@ class ResultScreen extends StatelessWidget {
     );
   }
 
+  Future<void> _sharePost(BuildContext context) async {
+    final text = '${postData.caption}\n\n${postData.hashtags.join(' ')}';
+    final encodedText = Uri.encodeComponent(text);
+    final platform = postData.platform.toLowerCase();
+    Uri? uri;
+
+    if (platform == 'twitter') {
+      uri = Uri.parse('https://twitter.com/intent/tweet?text=$encodedText');
+    } else if (platform == 'linkedin') {
+      uri = Uri.parse('https://www.linkedin.com/shareArticle?mini=true&text=$encodedText');
+    } else {
+      // For Instagram and other platforms, we can only open the app
+      // Sharing with pre-filled text is restricted
+      // consider using native sharing capabilities
+      uri = Uri.parse('instagram://library?AssetPath=${image.path}');
+    }
+
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      _showError(context, 'Could not launch $platform');
+    }
+  }
+
+  void _showError(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your AI-Generated Post'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text('Your AI-Generated Post'),
+            IconButton(
+              icon: const Icon(Icons.share, color: Colors.white),
+              onPressed: () => _sharePost(context),
+            ),
+          ],
+        ),
         backgroundColor: Colors.purple,
         elevation: 0,
       ),

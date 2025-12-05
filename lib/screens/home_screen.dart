@@ -26,9 +26,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late AnimationController _pulseController;
 
   final List<Map<String, dynamic>> _platforms = [
-    {'name': 'Instagram', 'icon': Icons.camera_alt, 'color': const Color(0xFFE4405F)},
+    {
+      'name': 'Instagram',
+      'icon': Icons.camera_alt,
+      'color': const Color(0xFFE4405F),
+    },
     {'name': 'Twitter', 'icon': Icons.tag, 'color': const Color(0xFF1DA1F2)},
-    {'name': 'LinkedIn', 'icon': Icons.business, 'color': const Color(0xFF0A66C2)},
+    {
+      'name': 'LinkedIn',
+      'icon': Icons.business,
+      'color': const Color(0xFF0A66C2),
+    },
   ];
 
   @override
@@ -38,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       duration: const Duration(seconds: 8),
       vsync: this,
     )..repeat(reverse: true);
-    
+
     _pulseController = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
@@ -206,7 +214,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                   ],
                 ),
-                child: const Icon(Icons.auto_awesome, color: Colors.white, size: 32),
+                child: const Icon(
+                  Icons.auto_awesome,
+                  color: Colors.white,
+                  size: 32,
+                ),
               ),
               const SizedBox(width: 16),
               Text(
@@ -251,62 +263,67 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           borderRadius: BorderRadius.circular(16),
           color: Colors.white.withOpacity(0.05),
         ),
-        child: _selectedImage != null
-            ? ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Image.file(_selectedImage!, fit: BoxFit.cover),
-                    Positioned(
-                      top: 12,
-                      right: 12,
-                      child: GestureDetector(
-                        onTap: () => setState(() => _selectedImage = null),
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.5),
-                            shape: BoxShape.circle,
+        child:
+            _selectedImage != null
+                ? ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Image.file(_selectedImage!, fit: BoxFit.cover),
+                      Positioned(
+                        top: 12,
+                        right: 12,
+                        child: GestureDetector(
+                          onTap: () => setState(() => _selectedImage = null),
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.5),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.close,
+                              color: Colors.white,
+                              size: 20,
+                            ),
                           ),
-                          child: const Icon(Icons.close, color: Colors.white, size: 20),
                         ),
+                      ),
+                    ],
+                  ),
+                )
+                : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Shimmer.fromColors(
+                      baseColor: Colors.white.withOpacity(0.3),
+                      highlightColor: Colors.white.withOpacity(0.6),
+                      child: const Icon(
+                        Icons.add_photo_alternate_rounded,
+                        size: 100,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      'No image selected',
+                      style: GoogleFonts.inter(
+                        color: Colors.white.withOpacity(0.9),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Choose from camera or gallery',
+                      style: GoogleFonts.inter(
+                        color: Colors.white.withOpacity(0.7),
+                        fontSize: 14,
                       ),
                     ),
                   ],
                 ),
-              )
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Shimmer.fromColors(
-                    baseColor: Colors.white.withOpacity(0.3),
-                    highlightColor: Colors.white.withOpacity(0.6),
-                    child: const Icon(
-                      Icons.add_photo_alternate_rounded,
-                      size: 100,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    'No image selected',
-                    style: GoogleFonts.inter(
-                      color: Colors.white.withOpacity(0.9),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Choose from camera or gallery',
-                    style: GoogleFonts.inter(
-                      color: Colors.white.withOpacity(0.7),
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
       ),
     );
   }
@@ -389,51 +406,65 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
         ),
         Row(
-          children: _platforms.map((platform) {
-            final isSelected = _selectedPlatform == platform['name'];
-            return Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 6),
-                child: GestureDetector(
-                  onTap: () => setState(() => _selectedPlatform = platform['name']),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOutCubic,
-                    child: GlassmorphicContainer(
-                      blur: isSelected ? 20 : 10,
-                      opacity: isSelected ? 0.25 : 0.1,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      border: Border.all(
-                        color: isSelected
-                            ? Colors.white.withOpacity(0.5)
-                            : Colors.white.withOpacity(0.2),
-                        width: isSelected ? 2 : 1,
-                      ),
-                      child: Column(
-                        children: [
-                          Icon(
-                            platform['icon'],
-                            color: isSelected ? Colors.white : Colors.white.withOpacity(0.7),
-                            size: isSelected ? 28 : 24,
+          children:
+              _platforms.map((platform) {
+                final isSelected = _selectedPlatform == platform['name'];
+                return Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                    child: GestureDetector(
+                      onTap:
+                          () => setState(
+                            () => _selectedPlatform = platform['name'],
                           ),
-                          const SizedBox(height: 8),
-                          Text(
-                            platform['name'],
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.inter(
-                              color: isSelected ? Colors.white : Colors.white.withOpacity(0.8),
-                              fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                              fontSize: isSelected ? 14 : 13,
-                            ),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOutCubic,
+                        child: GlassmorphicContainer(
+                          blur: isSelected ? 20 : 10,
+                          opacity: isSelected ? 0.25 : 0.1,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          border: Border.all(
+                            color:
+                                isSelected
+                                    ? Colors.white.withOpacity(0.5)
+                                    : Colors.white.withOpacity(0.2),
+                            width: isSelected ? 2 : 1,
                           ),
-                        ],
+                          child: Column(
+                            children: [
+                              Icon(
+                                platform['icon'],
+                                color:
+                                    isSelected
+                                        ? Colors.white
+                                        : Colors.white.withOpacity(0.7),
+                                size: isSelected ? 28 : 24,
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                platform['name'],
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.inter(
+                                  color:
+                                      isSelected
+                                          ? Colors.white
+                                          : Colors.white.withOpacity(0.8),
+                                  fontWeight:
+                                      isSelected
+                                          ? FontWeight.bold
+                                          : FontWeight.w500,
+                                  fontSize: isSelected ? 14 : 13,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
-            );
-          }).toList(),
+                );
+              }).toList(),
         ),
       ],
     );
@@ -447,27 +478,32 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         Color(0xFFE879F9),
         Color(0xFFFBBF24),
       ],
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      child: _isGenerating
-          ? LoadingAnimationWidget.staggeredDotsWave(
-              color: Colors.white,
-              size: 20,
-            )
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.auto_awesome_rounded, size: 28, color: Colors.white),
-                const SizedBox(width: 12),
-                Text(
-                  'Generate Post with AI',
-                  style: GoogleFonts.inter(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+   //   padding: const EdgeInsets.symmetric(vertical: 20),
+      child:
+          _isGenerating
+              ? LoadingAnimationWidget.staggeredDotsWave(
+                color: Colors.white,
+                size: 24,
+              )
+              : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.auto_awesome_rounded,
+                    size: 28,
                     color: Colors.white,
                   ),
-                ),
-              ],
-            ),
+                  const SizedBox(width: 12),
+                  Text(
+                    'Generate Post with AI',
+                    style: GoogleFonts.inter(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
     );
   }
 }
