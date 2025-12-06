@@ -94,6 +94,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         userStyle: 'casual and authentic',
       );
 
+      print(postData);
+
+      
+
       if (!mounted) return;
 
       Navigator.push(

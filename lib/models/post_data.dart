@@ -19,5 +19,19 @@ class PostData {
       platform: json['platform'] ?? '',
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'caption': caption,
+      'hashtags': hashtags,
+      'tone': tone,
+      'platform': platform,
+    };
+  }
+
+  @override
+  String toString() {
+    return 'PostData(${toMap()})';
+  }
 }
 

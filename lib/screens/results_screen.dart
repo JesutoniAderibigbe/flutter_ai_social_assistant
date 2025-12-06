@@ -211,12 +211,14 @@ class ResultScreen extends StatelessWidget {
                             color: Colors.blue.shade700,
                           ),
                           const SizedBox(width: 5),
-                          Text(
-                            'Tone: ${postData.tone}',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blue.shade700,
+                          Flexible(
+                            child: Text(
+                              'Tone: ${postData.tone}',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blue.shade700,
+                              ),
                             ),
                           ),
                         ],
